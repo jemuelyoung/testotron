@@ -1,0 +1,17 @@
+{
+  "name": "testotron",
+  "version": "0.0.1",
+  "description": "Automatically builds jasmine tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Jem Young",
+  "license": "ISC",
+  "devDependencies": {
+    "byline": "^4.1.1",
+    "esprima": "^1.0.4",
+    "js-beautify": "^1.4.2"
+  }
+}
