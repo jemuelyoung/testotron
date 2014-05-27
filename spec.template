@@ -1,5 +1,5 @@
-// <% filename %>
-describe(<% filename %>, function() {
+// <%filename%>
+describe(<%filename%>, function() {
 
   describe('This is a test', function() {
     it('should do something', function() {
