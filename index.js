@@ -40,37 +40,46 @@ out.once('open', function() {
   out.end();
 });
 
-
+var commentsObj = {};
+var current = false;
 stream.on('data', function(line) {
+  // keep track of the current line number
   lineNumber += 1;
-  if (line.indexOf('* @param') > -1) {
-    var type = line.match(/\{([^}]+)\}/)[1];
-    buildTest(type);
-  }
-  if (line.indexOf('* @return') > -1) {
-    var returnType = line.match(/\{([^}]+)\}/)[1];
-    buildTest(returnType);
-  }
 
-  // if (line.search(/\{/) !== -1 ) {
-  //   arr.push(1);
-  // }
-  // if (line.search(/\}/) !== -1 ) {
-  //   arr.pop();
-  // }
-  // if (arr.length === 0){
-  //   console.log("End of function?");
-  //   console.log(line);
-  // }
+  if (line.trim() === '') {
+    return;
+  }
+  // mark start of comment block
+  if (line.indexOf('/**') > -1) {
+    // create comment object
+    commentsObj[lineNumber] = {
+      start: lineNumber
+    };
+    current = lineNumber;
+  }
+  // mark the end of the comment block
+  if (line.indexOf('*/') > -1 || line.indexOf('**/') > -1) {
+    commentsObj[current]['end'] = lineNumber;
+    current = false;
+  }
+  if (line.indexOf('* @param') > -1 && current) {
+    var type = line.match(/\{([^}]+)\}/)[1];
+    // TODO: allow for multiple params
+    commentsObj[current].param = type;
+  }
+  if (line.indexOf('* @return') > -1 && current) {
+    var returnType = line.match(/\{([^}]+)\}/)[1];
+    commentsObj[current]['return'] = returnType;
+  }
 });
 
-var getFunctionName = function(line) {
-  var m =line.match(/var (\d)= function/);
-  if (m.length < 1) {
-    m = line.match(/function([^\(]+)/);
+for (var fn in fnObj) {
+  for (var x in commentsObj) {
+    if ((commentsObj[x].end + 1) === fnObj[fn].start) {
+      fnObj[fn].comments = commentsObj[x];
+    }
   }
-  return m[1] || false;
-};
+}
 
 
 function buildTest(type) {
