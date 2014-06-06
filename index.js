@@ -7,11 +7,13 @@ var fs = require('fs'),
 
 var filename = 'test.js';
 var stream = byline(fs.createReadStream(filename), {
-  encoding: 'utf8'
+  encoding: 'utf8',
+  keepEmptyLines: true
 });
 var SPACING_TYPE = '';
 var arr = [];
-
+var fnObj = {};
+var lineNumber = 1;
 
 /** Esprima **/
 console.log('Processing', filename);
@@ -19,10 +21,17 @@ var out = fs.createWriteStream('out.js');
 var buffer = '';
 var ast = esprima.parse(fs.readFileSync(filename), {loc:true});
 
+// traverse the file pulling out any relevant information
 estraverse.traverse(ast, {
   enter: function(node) {
-    console.dir(node);
-
+    if (node.type === 'FunctionDeclaration') {
+      // save all of the function names along with their corresponding
+      // start and end lines
+      fnObj[node.id.name] = {
+        start: node.loc.start.line,
+        end: node.loc.end.line,
+      };
+    }
   }
 });
 
@@ -32,8 +41,12 @@ out.once('open', function() {
 });
 
 
-
 stream.on('data', function(line) {
+  lineNumber += 1;
+  if (line.indexOf('* @param') > -1) {
+    var type = line.match(/\{([^}]+)\}/)[1];
+    buildTest(type);
+  }
   if (line.indexOf('* @return') > -1) {
     var returnType = line.match(/\{([^}]+)\}/)[1];
     buildTest(returnType);
@@ -50,6 +63,14 @@ stream.on('data', function(line) {
   //   console.log(line);
   // }
 });
+
+var getFunctionName = function(line) {
+  var m =line.match(/var (\d)= function/);
+  if (m.length < 1) {
+    m = line.match(/function([^\(]+)/);
+  }
+  return m[1] || false;
+};
 
 
 function buildTest(type) {
