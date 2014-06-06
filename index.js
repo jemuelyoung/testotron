@@ -13,7 +13,7 @@ var stream = byline(fs.createReadStream(filename), {
 var SPACING_TYPE = '';
 var arr = [];
 var fnObj = {};
-var lineNumber = 1;
+var lineNumber = 0;
 
 /** Esprima **/
 console.log('Processing', filename);
@@ -73,15 +73,34 @@ stream.on('data', function(line) {
   }
 });
 
-for (var fn in fnObj) {
-  for (var x in commentsObj) {
-    if ((commentsObj[x].end + 1) === fnObj[fn].start) {
-      fnObj[fn].comments = commentsObj[x];
+
+stream.on('end', function() {
+  for (var fn in fnObj) {
+    for (var x in commentsObj) {
+      console.dir(commentsObj[x]);
+      if ((commentsObj[x].end + 1) === fnObj[fn].start) {
+        fnObj[fn].comments = commentsObj[x];
+      }
     }
   }
-}
+console.dir(fnObj);
+});
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*******************************/
 function buildTest(type) {
   var testName = filename.slice(0, -3) + 'Spec.js';
   var stream = fs.createWriteStream(testName);
