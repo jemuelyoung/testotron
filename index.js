@@ -75,9 +75,12 @@ stream.on('data', function(line) {
 
 
 stream.on('end', function() {
+  // attach comment object to function object
   for (var fn in fnObj) {
     for (var x in commentsObj) {
       console.dir(commentsObj[x]);
+      // get the ending line of comment block and attempt to match with a
+      // function block that starts on the next line
       if ((commentsObj[x].end + 1) === fnObj[fn].start) {
         fnObj[fn].comments = commentsObj[x];
       }
