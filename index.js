@@ -2,7 +2,8 @@ var fs = require('fs'),
   byline = require('byline'),
   exec = require('child_process').exec,
   esprima = require('esprima'),
-  estraverse = require('estraverse');
+  estraverse = require('estraverse'),
+  templateService = require('./templateService.js');
 
 
 var filename = 'test.js';
@@ -78,7 +79,7 @@ stream.on('end', function() {
   // attach comment object to function object
   for (var fn in fnObj) {
     for (var x in commentsObj) {
-      console.dir(commentsObj[x]);
+      // console.dir(commentsObj[x]);
       // get the ending line of comment block and attempt to match with a
       // function block that starts on the next line
       if ((commentsObj[x].end + 1) === fnObj[fn].start) {
@@ -86,7 +87,13 @@ stream.on('end', function() {
       }
     }
   }
-console.dir(fnObj);
+
+var templateReader = new templateService('spec.template');
+var template = templateReader.interpolateTemplate(templateReader.createValues(fnObj));
+console.log(template);
+// console.log(templateReader.interpolateTemplate({'filename': 'foo', 'testFn': 'function(){alert("foo");}' }));
+
+// TODO: call template service and pass in fnObj
 });
 
 

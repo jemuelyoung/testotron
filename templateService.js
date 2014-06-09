@@ -1,10 +1,12 @@
-var fs = require('fs');
+var fs = require('fs'),
+  _ = require('underscore');
 
 function TemplateService(template) {
   this.template = template;
   this.templateBuffer = fs.readFileSync(this.template, 'utf8');
   var variableExpression = new RegExp('<%([^%>]+)?%>', 'g');
   this.variables = this.templateBuffer.match(variableExpression);
+
 }
 
 TemplateService.prototype.interpolateTemplate = function(values) {
@@ -20,17 +22,30 @@ TemplateService.prototype.interpolateTemplate = function(values) {
   return interpolatedTemplate;
 };
 
+TemplateService.prototype.createValues = function(obj) {
+  var values = {};
+  _.each(obj, function(fn, name) {
+    values.filename = name;
+    _.each(fn, function(value, key){
+      if (key === 'comments') {
+        values.testFn = getTest(value['return']);
+        values.param = value.param;
+      }
+    });
+  });
+
+  return values;
+};
+
 var getTest = function(type) {
-  if (type === 'string') {
+  if (type === 'String') {
     return 'expect(typeof <%param%>).toBe("string");';
   }
-  if (type === 'number') {
+  if (type === 'Number') {
     return 'expect(typeof <%param%>).toBe("number");';
   }
 };
 
 
-var templateReader = new TemplateService('spec.template');
 
-
-console.log(templateReader.interpolateTemplate({'filename': 'foo', 'testFn': 'function(){alert("foo");}' }));
+module.exports = TemplateService;
