@@ -45,7 +45,7 @@ var getTest = function(fnName, param, returnType) {
     param = 'This is a test';
   }
   // expect(someFn(param)).toBe(typeOf returnType)
-  return 'expect(' + fnName + '(' + param + ')).toBe(typeof \''+returnType +'\')';
+  return 'expect(typeof ' + fnName + '(' + param + ')).toBe(\''+returnType.toLowerCase() +'\')';
 };
 
 

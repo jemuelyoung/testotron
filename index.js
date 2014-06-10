@@ -7,7 +7,7 @@ var fs = require('fs'),
 
 
 var filename = 'test.js';
-var stream = byline(fs.createReadStream(filename), {
+var stream = byline(fs.createReadStream('js/' + filename), {
   encoding: 'utf8',
   keepEmptyLines: true
 });
@@ -18,9 +18,9 @@ var lineNumber = 0;
 
 /** Esprima **/
 console.log('Processing', filename);
-var out = fs.createWriteStream('out.js');
+var out = fs.createWriteStream('js/testSpec.js');
 var buffer = '';
-var ast = esprima.parse(fs.readFileSync(filename), {loc:true});
+var ast = esprima.parse(fs.readFileSync('js/' + filename), {loc:true});
 
 // traverse the file pulling out any relevant information
 estraverse.traverse(ast, {
@@ -36,10 +36,6 @@ estraverse.traverse(ast, {
   }
 });
 
-out.once('open', function() {
-  out.write(JSON.stringify(ast));
-  out.end();
-});
 
 var commentsObj = {};
 var current = false;
@@ -91,6 +87,9 @@ stream.on('end', function() {
 var templateReader = new templateService('spec.template');
 var template = templateReader.interpolateTemplate(templateReader.createValues(fnObj));
 console.log(template);
+fs.writeFile('js/testSpec.js', template, function() {
+  console.log('file written');
+});
 // console.log(templateReader.interpolateTemplate({'filename': 'foo', 'testFn': 'function(){alert("foo");}' }));
 
 // TODO: call template service and pass in fnObj
@@ -111,28 +110,6 @@ console.log(template);
 
 
 /*******************************/
-function buildTest(type) {
-  var testName = filename.slice(0, -3) + 'Spec.js';
-  var stream = fs.createWriteStream(testName);
-  stream.once('open', function() {
-    stream.write("describe(" + filename + ", function() {\n\n");
-    stream.write("describe(test1, function() {\n");
-    stream.write("it('should do something', function() {\n");
-    stream.write("  ");
-
-    stream.write("expect(cbMath).toBeDefined();\n");
-
-    stream.write("});\n");
-    stream.write("});\n");
-    stream.write("});\n");
-    stream.end();
-  });
-  exec('js-beautify -r -s 2 -f ' + testName + '', function(error, stdout, stderr) {
-    console.log(stdout);
-  });
-
-}
-
 
 // Things to do
 //1. Get random types of Strings, numbers, etc to seed tests
