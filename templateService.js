@@ -25,10 +25,10 @@ TemplateService.prototype.interpolateTemplate = function(values) {
 TemplateService.prototype.createValues = function(obj) {
   var values = {};
   _.each(obj, function(fn, name) {
-    values.filename = name;
+    values.fnName = name;
     _.each(fn, function(value, key){
       if (key === 'comments') {
-        values.testFn = getTest(value['return']);
+        values.testFn = getTest(name, value.param, value['return']);
         values.param = value.param;
       }
     });
@@ -37,13 +37,15 @@ TemplateService.prototype.createValues = function(obj) {
   return values;
 };
 
-var getTest = function(type) {
-  if (type === 'String') {
-    return 'expect(typeof <%param%>).toBe("string");';
+var getTest = function(fnName, param, returnType) {
+  if (param === 'Number') {
+    param = 42;
   }
-  if (type === 'Number') {
-    return 'expect(typeof <%param%>).toBe("number");';
+  if (param === 'String') {
+    param = 'This is a test';
   }
+  // expect(someFn(param)).toBe(typeOf returnType)
+  return 'expect(' + fnName + '(' + param + ')).toBe(typeof \''+returnType +'\')';
 };
 
 
