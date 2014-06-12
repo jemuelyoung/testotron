@@ -10,8 +10,8 @@ function TemplateService(template) {
 }
 
 TemplateService.prototype.interpolateTemplate = function(values) {
-  var self = this;
-  var interpolatedTemplate = self.templateBuffer;
+  var interpolatedTemplate = this.templateBuffer;
+  //console.log(values)
   for (var key in values) {
     if (values.hasOwnProperty(key)) {
       var re = '<%' + key + '%>';
@@ -22,16 +22,15 @@ TemplateService.prototype.interpolateTemplate = function(values) {
   return interpolatedTemplate;
 };
 
-TemplateService.prototype.createValues = function(obj) {
+TemplateService.prototype.createValues = function(name, obj) {
   var values = {};
-  _.each(obj, function(fn, name) {
-    values.fnName = name;
-    _.each(fn, function(value, key){
-      if (key === 'comments') {
-        values.testFn = getTest(name, value.param, value['return']);
-        values.param = value.param;
-      }
-    });
+  values.fnName = name;
+    
+  _.each(obj, function(value, key){
+    if (key === 'comments') {
+      values.testFn = getTest(name, value.param, value['return']);
+      values.param = value.param;
+    }
   });
 
   return values;
@@ -42,7 +41,10 @@ var getTest = function(fnName, param, returnType) {
     param = 42;
   }
   if (param === 'String') {
-    param = 'This is a test';
+    param = '\'This is a test\'';
+  }
+  if (param === 'Array') {
+    param = [1, 2];
   }
   // expect(someFn(param)).toBe(typeOf returnType)
   return 'expect(typeof ' + fnName + '(' + param + ')).toBe(\''+returnType.toLowerCase() +'\')';

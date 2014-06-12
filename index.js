@@ -3,7 +3,8 @@ var fs = require('fs'),
   exec = require('child_process').exec,
   esprima = require('esprima'),
   estraverse = require('estraverse'),
-  templateService = require('./templateService.js');
+  templateService = require('./templateService.js'),
+  _ = require('underscore');
 
 
 var filename = 'test.js';
@@ -16,10 +17,9 @@ var arr = [];
 var fnObj = {};
 var lineNumber = 0;
 
-/** Esprima **/
 console.log('Processing', filename);
-var out = fs.createWriteStream('js/testSpec.js');
-var buffer = '';
+
+/** Esprima **/
 var ast = esprima.parse(fs.readFileSync('js/' + filename), {loc:true});
 
 // traverse the file pulling out any relevant information
@@ -72,6 +72,7 @@ stream.on('data', function(line) {
 
 
 stream.on('end', function() {
+
   // attach comment object to function object
   for (var fn in fnObj) {
     for (var x in commentsObj) {
@@ -85,8 +86,12 @@ stream.on('end', function() {
   }
 
 var templateReader = new templateService('spec.template');
-var template = templateReader.interpolateTemplate(templateReader.createValues(fnObj));
-console.log(template);
+var template = '';
+_.each(fnObj, function(values, name) {
+  template += templateReader.interpolateTemplate(templateReader.createValues(name, values));
+
+});
+//console.log(template);
 fs.writeFile('js/testSpec.js', template, function() {
   console.log('file written');
 });

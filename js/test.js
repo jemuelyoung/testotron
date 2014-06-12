@@ -2,11 +2,18 @@
 /**
  * Does some work.
  * @param {Number} num doesn't do much
- * @return {String}
+ * @return {Number}
  */
 function foo(num) {
-  var test = 424;
-  console.log("do work");
+  return num;
+}
+
+/**
+ * Does some more work.
+ * @param {String} str doesn't do much
+ * @return {String}
+ */
+function foo2(str) {
   return "hello";
 }
 
