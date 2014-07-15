@@ -1,24 +1,17 @@
 {
   "name": "testotron",
-  "version": "0.0.1",
-  "description": "Automatically builds jasmine tests",
-  "main": "index.js",
+  "version": "0.0.2",
+  "description": "Automatically builds Jasmine tests",
+  "main": "./lib",
   "scripts": {
-    "test": "node-debug .\\index.js",
-    "start": "node index.js"
+    "test": "node-debug ./lib/index.js",
+    "start": "node ./lib/run"
   },
   "author": "Jem Young",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "byline": "^4.1.1",
     "esprima": "^1.0.4",
-    "js-beautify": "^1.4.2",
-    "underscore": "^1.6.0",
-    "karma-jasmine": "^0.1.5",
-    "karma-chrome-launcher": "^0.1.4",
-    "requirejs": "^2.1.14",
-    "karma-requirejs": "^0.2.2",
-    "karma-cli": "0.0.4",
-    "karma": "^0.12.16"
+    "underscore": "^1.6.0"
   }
 }

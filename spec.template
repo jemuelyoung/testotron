@@ -1,4 +1,3 @@
-// <%filename%>
 describe(<%fnName%>, function() {
   describe('This is a test', function() {
     it('should do something', function() {
