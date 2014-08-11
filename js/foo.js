@@ -8,7 +8,6 @@ function calcNums(num) {
   return triple;
 }
 
-
 /**
  * Does some more work.
  * @param {String} str doesn't do much
