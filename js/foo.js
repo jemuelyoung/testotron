@@ -18,4 +18,13 @@ function foo2(str) {
   return "hello";
 }
 
+/**
+ * Does some more work.
+ * @param {Array} str doesn't do much
+ * @return {Array}
+ */
+function foo3(arr) {
+  return [];
+}
+
 
