@@ -5,7 +5,7 @@
   "main": "./lib",
   "scripts": {
     "test": "node-debug ./lib/index.js",
-    "start": "node-debug ./lib/run ./js/foo2.js"
+    "start": "node-debug ./lib/run ./js/foo.js"
   },
   "author": "Jem Young",
   "license": "MIT",
