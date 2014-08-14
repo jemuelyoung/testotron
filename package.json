@@ -16,5 +16,8 @@
     "estraverse": "^1.5.0",
     "through2": "^0.6.1",
     "gulp-util": "^3.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7"
   }
 }
