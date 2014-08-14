@@ -1,6 +1,6 @@
 {
   "name": "testotron",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Automatically builds Jasmine tests",
   "main": "./lib",
   "scripts": {
@@ -9,11 +9,12 @@
   },
   "author": "Jem Young",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "byline": "^4.1.1",
     "esprima": "^1.0.4",
     "underscore": "^1.6.0",
-    "estraverse": "^1.5.0"
-
+    "estraverse": "^1.5.0",
+    "through2": "^0.6.1",
+    "gulp-util": "^3.0.0"
   }
 }
