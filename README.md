@@ -7,6 +7,22 @@ Testotron
 Testotron reads your Javascript files and parses the [JSdoc](http://usejsdoc.org/) comments to create skeleton unit tests using the [Jasmine](http://jasmine.github.io/2.0/introduction.html) testing framework.
 
 
+
+Usage
+--------
+  Testotron should be used in conjunction with [Gulp](http://http://gulpjs.com/).
+    
+    gulp.task('default', function() {
+      gulp.src('./js/*.js')
+      .pipe(testotron()));
+    });
+
+### Options
+
+## testotron(options)
+  `options` is an object with these properties:
+  * `outputDirectory` - [optional] The directory where the tests will be written to. The default directory is 'tests'
+
 #### Example
 
 This code gets parsed:
@@ -31,7 +47,7 @@ and this Jasmine test gets generated:
       });
     });
     
-    
-    
-#### Todo
+      
+Todo
+------
 AngularJS Support
