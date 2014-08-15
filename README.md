@@ -12,14 +12,13 @@ Usage
 --------
   Testotron should be used in conjunction with [Gulp](http://http://gulpjs.com/).
     
-    gulp.task('default', function() {
+    gulp.task('makeTests', function() {
       gulp.src('./js/*.js')
       .pipe(testotron()));
     });
 
-### Options
 
-## testotron(options)
+#### testotron(options)
   `options` is an object with these properties:
   * `outputDirectory` - [optional] The directory where the tests will be written to. The default directory is 'tests'
 
