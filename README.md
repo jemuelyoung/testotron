@@ -4,7 +4,7 @@ Testotron
 ##### Automatically build Jasmine tests from your Javascipt code
 
 
-Testotron reads your Javascript files and parses the [JSdoc](http://usejsdoc.org/) comments to create skeleton unit tests using the [Jasmine](http://jasmine.github.io/2.0/introduction.html) testing framework.
+Testotron reads your Javascript files and parses the [JSdoc](http://usejsdoc.org/) comments to create skeleton unit tests. The tests are created uing the `spec.template` file and can be adapted to build tests for any framework. The default template creates [Jasmine](http://jasmine.github.io/2.0/introduction.html) tests.
 
 
 
