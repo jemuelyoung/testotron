@@ -4,8 +4,7 @@
   "description": "Automatically builds Jasmine tests",
   "main": "./lib",
   "scripts": {
-    "test": "node-debug ./lib/index.js",
-    "start": "node-debug ./lib/run ./js/foo.js"
+    "test": "node-debug ./lib/index.js"
   },
   "author": "Jem Young",
   "license": "MIT",
