@@ -1,4 +1,4 @@
-Testotron 
+Testotron
 =========
 
 ##### Automatically build Jasmine tests from your Javascipt code
@@ -11,7 +11,7 @@ Testotron reads your Javascript files and parses the [JSdoc](http://usejsdoc.org
 Usage
 --------
   Testotron should be used in conjunction with [Gulp](http://http://gulpjs.com/).
-    
+
     gulp.task('makeTests', function() {
       gulp.src('./js/*.js')
       .pipe(testotron()));
@@ -37,7 +37,7 @@ This code gets parsed:
     }
 
 and this Jasmine test gets generated:
-    
+
     describe(calcNums, function() {
       describe('This is a test', function() {
         it('should do something', function() {
@@ -45,8 +45,7 @@ and this Jasmine test gets generated:
         });
       });
     });
-    
-      
+
 Todo
 ------
 AngularJS Support
